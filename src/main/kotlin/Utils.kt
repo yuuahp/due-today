@@ -74,7 +74,7 @@ fun getVEventsOf(id: String, subscription: SubscriptionData): List<CalendarCompo
     val interval = subscription.interval
     val vEvent = createVEvent(
         id,
-        summary = "due(${subscription.priceTag}): ${subscription.service}",
+        summary = Store.config.strings.formatDueDate(subscription.service, subscription.currency, subscription.amount.toString()),
         startDate = if (subscription.trial == null) {
             subscription.startDate
         } else {
@@ -94,13 +94,13 @@ fun getTrialVEventsOf(id: String, subscription: SubscriptionData): List<Calendar
 
     val startVEvent = createVEvent(
         "$id-trial-start",
-        summary = "sub: Trial for ${subscription.service}",
+        summary = Store.config.strings.formatTrialStart(subscription.service),
         startDate = subscription.startDate
     )
 
     val endVEvent = createVEvent(
         "$id-trial-end",
-        summary = "due(${subscription.priceTag}): Trial for ${subscription.service} ends",
+        summary = Store.config.strings.formatTrialEnd(subscription.service, subscription.currency, subscription.amount.toString()),
         startDate = subscription.trial.endDate
     )
 
