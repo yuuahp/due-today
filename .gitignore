@@ -47,3 +47,4 @@ bin/
 ### Project Specific ###
 TODO.md
 subscriptions.toml
+config.toml

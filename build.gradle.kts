@@ -14,6 +14,8 @@ dependencies {
     testImplementation(kotlin("test"))
 
     implementation("io.github.oshai:kotlin-logging-jvm:8.0.01")
+    implementation("org.slf4j:slf4j-api:2.0.17")
+    implementation("org.slf4j:slf4j-simple:2.0.17")
 
     implementation("org.mnode.ical4j:ical4j:4.2.3")
 
@@ -24,6 +26,8 @@ dependencies {
 
     implementation("io.ktor:ktor-server-core:3.4.0")
     implementation("io.ktor:ktor-server-netty:3.4.0")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
 }
 
 kotlin {

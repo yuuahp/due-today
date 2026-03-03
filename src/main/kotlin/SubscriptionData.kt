@@ -39,6 +39,11 @@ data class SubscriptionInterval(
     val value: Int = 1,
 )
 
+/**
+ * Represents a subscription trial period.
+ *
+ * @property endDate The end date of the trial period. Note that this date is exclusive, meaning that you will be charged on this date.
+ */
 @Serializable
 data class SubscriptionTrial(
     @SerialName("end_date")
@@ -58,4 +63,6 @@ data class SubscriptionData(
     @SerialName("end_date")
     val endDate: LocalDate? = null,
     val interval: SubscriptionInterval,
-)
+) {
+    val priceTag = "$currency $amount"
+}
