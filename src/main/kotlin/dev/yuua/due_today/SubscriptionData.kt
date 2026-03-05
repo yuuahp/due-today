@@ -1,4 +1,4 @@
-package dev.yuua
+package dev.yuua.due_today
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.SerialName
@@ -25,10 +25,13 @@ import kotlinx.serialization.Serializable
 enum class SubscriptionIntervalType {
     @SerialName("daily")
     DAILY,
+
     @SerialName("weekly")
     WEEKLY,
+
     @SerialName("monthly")
     MONTHLY,
+
     @SerialName("annually")
     ANNUALLY,
 }
@@ -46,7 +49,7 @@ data class SubscriptionInterval(
  */
 @Serializable
 data class SubscriptionTrial(
-    @SerialName("end_date")
+    @SerialName("end-date")
     val endDate: LocalDate,
 )
 
@@ -54,15 +57,12 @@ data class SubscriptionTrial(
 data class SubscriptionData(
     val service: String,
     val url: String? = null,
-    val currency: String,
-    val amount: Double,
+    val price: PriceData,
     val trial: SubscriptionTrial? = null,
 
-    @SerialName("start_date")
+    @SerialName("start-date")
     val startDate: LocalDate,
-    @SerialName("end_date")
+    @SerialName("end-date")
     val endDate: LocalDate? = null,
     val interval: SubscriptionInterval,
-) {
-    val priceTag = "$currency $amount"
-}
+)

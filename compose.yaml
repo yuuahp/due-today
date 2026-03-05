@@ -1,0 +1,9 @@
+services:
+  due-today:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config.toml:/app/config.toml
+      - ./subscriptions.toml:/app/subscriptions.toml
+    init: true

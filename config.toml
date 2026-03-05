@@ -1,0 +1,10 @@
+port = 8080
+
+[exchange-rate]
+to = "JPY"
+host = "api.frankfurter.dev"
+
+[strings]
+trial-start = "sub: Trial for {service} start"
+trial-end = "due({price}): Trial for {service} end"
+due-date = "due({price}): {service} due today"

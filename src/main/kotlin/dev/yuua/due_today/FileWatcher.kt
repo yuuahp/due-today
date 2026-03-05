@@ -1,4 +1,4 @@
-package dev.yuua
+package dev.yuua.due_today
 
 import com.akuleshov7.ktoml.Toml
 import io.github.oshai.kotlinlogging.KotlinLogging

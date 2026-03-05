@@ -1,4 +1,4 @@
-package dev.yuua
+package dev.yuua.due_today
 
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
@@ -70,11 +70,14 @@ fun createVEvent(
         .fluentTarget as CalendarComponent
 }
 
-fun getVEventsOf(id: String, subscription: SubscriptionData): List<CalendarComponent> {
+suspend fun getVEventsOf(id: String, subscription: SubscriptionData): List<CalendarComponent> {
     val interval = subscription.interval
     val vEvent = createVEvent(
         id,
-        summary = Store.config.strings.formatDueDate(subscription.service, subscription.currency, subscription.amount.toString()),
+        summary = Store.config.stringsConfig.formatDueDate(
+            subscription.service,
+            subscription.price.exchangeConfigured().toString()
+        ),
         startDate = if (subscription.trial == null) {
             subscription.startDate
         } else {
@@ -89,18 +92,21 @@ fun getVEventsOf(id: String, subscription: SubscriptionData): List<CalendarCompo
     return listOf(vEvent, *trialVEvents.toTypedArray())
 }
 
-fun getTrialVEventsOf(id: String, subscription: SubscriptionData): List<CalendarComponent> {
+suspend fun getTrialVEventsOf(id: String, subscription: SubscriptionData): List<CalendarComponent> {
     if (subscription.trial == null) return emptyList()
 
     val startVEvent = createVEvent(
         "$id-trial-start",
-        summary = Store.config.strings.formatTrialStart(subscription.service),
+        summary = Store.config.stringsConfig.formatTrialStart(subscription.service),
         startDate = subscription.startDate
     )
 
     val endVEvent = createVEvent(
         "$id-trial-end",
-        summary = Store.config.strings.formatTrialEnd(subscription.service, subscription.currency, subscription.amount.toString()),
+        summary = Store.config.stringsConfig.formatTrialEnd(
+            subscription.service,
+            subscription.price.exchangeConfigured().toString()
+        ),
         startDate = subscription.trial.endDate
     )
 

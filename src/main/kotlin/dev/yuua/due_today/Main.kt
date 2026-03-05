@@ -1,6 +1,4 @@
-package dev.yuua
-
-import kotlin.io.path.Path
+package dev.yuua.due_today
 
 suspend fun main() {
     Store.init("./config.toml") // todo: take arguments

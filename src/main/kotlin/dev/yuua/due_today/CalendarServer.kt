@@ -1,4 +1,4 @@
-package dev.yuua
+package dev.yuua.due_today
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.ContentType
@@ -15,7 +15,7 @@ import net.fortuna.ical4j.model.Calendar as ICalendar
 
 private val logger = KotlinLogging.logger {}
 
-class CalendarServer(val calendarProvider: () -> ICalendar) {
+class CalendarServer(val calendarProvider: suspend () -> ICalendar) {
     suspend fun run() {
         logger.info { "Starting calendar server..." }
         embeddedServer(Netty, port = Store.config.port) {
