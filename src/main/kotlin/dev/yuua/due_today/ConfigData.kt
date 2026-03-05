@@ -34,7 +34,7 @@ data class StringsConfig(
 @Serializable
 data class ExchangeRateConfig(
     val to: String,
-    val host: String = "https://api.frankfurter.dev/",
+    val host: String = "api.frankfurter.dev",
 )
 
 @Serializable

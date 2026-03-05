@@ -56,7 +56,7 @@ data class SubscriptionTrial(
 @Serializable
 data class SubscriptionData(
     val service: String,
-    val url: String? = null,
+    val url: String? = null, // todo
     val price: PriceData,
     val trial: SubscriptionTrial? = null,
 
