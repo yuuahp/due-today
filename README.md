@@ -16,6 +16,16 @@ Tested on Java 25.
 2. Run `./gradlew build` in macOS/Linux or `gradlew.bat build` in Windows.
 3. Run `java -jar build/libs/due-today-1.0.0-all.jar` to start the application.
 
+# Usage
+## Apple Calendar
+1. Open Apple Calendar.
+2. Click "File" > "New Calendar Subscription...".
+3. Enter `http://localhost:8080/` as the calendar URL click "Subscribe".
+
+## Others
+Due Today serves an iCalendar feed at `http://localhost:8080/` (or configured host and port). 
+You can go with any calendar app that supports iCalendar spec.
+
 ## Server Configuration
 Place `config.toml` in the project root. Example:
 ```toml
