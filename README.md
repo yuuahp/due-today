@@ -46,4 +46,12 @@ end-date = 2026-08-14 # Optional. The end date of the subscription. If omitted, 
 interval.type = "monthly" # The billing interval. Can be "daily", "weekly", "monthly", or "annually".
 interval.value = 1 # Optional. The billing interval value. 1 by default. For example, interval.type = "monthly" and interval.value = 3 means the subscription is billed every 3 months.
 trial.end-date = 2026-03-14 # Optional. The end date of the trial period. The date is exclusive, meaning that you will be charged on this date.
+
+[fastmail-standard]
+service = "Fastmail Standard"
+# ...
+
+[fontawesome-pro]
+service = "FontAwesome Pro"
+# ...
 ```
