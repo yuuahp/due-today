@@ -38,8 +38,15 @@ data class ExchangeRateConfig(
 )
 
 @Serializable
+data class AuthConfig(
+    val username: String,
+    val password: String,
+)
+
+@Serializable
 data class ConfigData(
     val port: Int = 8080,
+    val auth: AuthConfig? = null,
     @SerialName("exchange-rate")
     val exchangeRateConfig: ExchangeRateConfig? = null,
     @SerialName("strings")

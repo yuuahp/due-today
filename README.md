@@ -32,6 +32,11 @@ Place `config.toml` in the project root. Example:
 # Optional. The port to listen. Default is 8080.
 port = 1234
 
+# Optional. Configure basic authentication if needed. Your calendar will be accessible at http://username:password@localhost:port/.
+[auth]
+username = "admin"
+password = "password"
+
 # Optional. Configure automatic currency conversion. Omit this table to disable currency conversion.
 [exchange-rate]
 to = "JPY" # The currency to convert to.

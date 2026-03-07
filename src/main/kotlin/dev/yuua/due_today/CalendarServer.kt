@@ -4,6 +4,11 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.ContentType
 import io.ktor.http.HeaderValueParam
 import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.install
+import io.ktor.server.auth.Authentication
+import io.ktor.server.auth.UserIdPrincipal
+import io.ktor.server.auth.authenticate
+import io.ktor.server.auth.basic
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.response.respond
@@ -18,23 +23,47 @@ private val logger = KotlinLogging.logger {}
 class CalendarServer(val calendarProvider: suspend () -> ICalendar) {
     suspend fun run() {
         logger.info { "Starting calendar server..." }
+        val auth = Store.config.auth
         embeddedServer(Netty, port = Store.config.port) {
-            routing {
-                get("/") {
-                    val calendar = try {
-                        calendarProvider()
-                    } catch (e: Exception) {
-                        logger.error(e) { "Failed to generate calendar" }
-                        call.respond(HttpStatusCode.InternalServerError, "Failed to generate calendar: ${e.message}")
-                        return@get
+            if (auth != null) {
+                install(Authentication) {
+                    basic {
+                        validate { credentials ->
+                            if (
+                                credentials.name == auth.username &&
+                                credentials.password == auth.password
+                            ) {
+                                UserIdPrincipal(credentials.name)
+                            } else {
+                                null
+                            }
+                        }
                     }
+                }
+                logger.info { "Auth has been configured" }
+            }
 
-                    call.respondOutputStream(
-                        // text/calendar; charset=utf-8
-                        ContentType("text", "calendar", listOf(HeaderValueParam("charset", "utf-8"))),
-                        HttpStatusCode.OK
-                    ) {
-                        CalendarOutputter().output(calendar, this)
+            routing {
+                authenticate {
+                    get("/calendar.ics") {
+                        val calendar = try {
+                            calendarProvider()
+                        } catch (e: Exception) {
+                            logger.error(e) { "Failed to generate calendar" }
+                            call.respond(
+                                HttpStatusCode.InternalServerError,
+                                "Failed to generate calendar: ${e.message}"
+                            )
+                            return@get
+                        }
+
+                        call.respondOutputStream(
+                            // text/calendar; charset=utf-8
+                            ContentType("text", "calendar", listOf(HeaderValueParam("charset", "utf-8"))),
+                            HttpStatusCode.OK
+                        ) {
+                            CalendarOutputter().output(calendar, this)
+                        }
                     }
                 }
             }
