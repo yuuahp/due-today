@@ -20,6 +20,10 @@ datetime = "0.7.1"
 # Ktor
 ktor = "3.4.1"
 
+# Database
+exposed = "1.1.1"
+h2 = "2.4.240"
+
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
@@ -60,6 +64,11 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 
+# Database
+exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+h2 = { module = "com.h2database:h2", version.ref = "h2" }
+
 [bundles]
 testing = ["kotlin-test"]
 logging = ["kotlin-logging", "slf4j-api", "log4j-slf4j2-impl", "log4j-core"]
@@ -68,3 +77,4 @@ ktoml = ["ktoml-core", "ktoml-file"]
 kotlinx = ["kotlinx-coroutines-core", "kotlinx-datetime"]
 ktor-server = ["ktor-server-core", "ktor-server-netty", "ktor-server-auth"]
 ktor-client = ["ktor-client-core", "ktor-client-cio-jvm", "ktor-client-resources", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json", "ktor-client-logging"]
+database = ["exposed-core", "exposed-jdbc", "h2"]

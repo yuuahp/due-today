@@ -11,7 +11,7 @@ class FrankfurterLatestResource(
 )
 
 @Serializable
-data class FrankfurterAPIResponse(
+data class FrankfurterLatestResponse(
     val base: String,
     val date: LocalDate,
     val rates: Map<String, Double>,

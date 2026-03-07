@@ -40,7 +40,7 @@ password = "password"
 # Optional. Configure automatic currency conversion. Omit this table to disable currency conversion.
 [exchange-rate]
 to = "JPY" # The currency to convert to.
-host = "api.frankfurter.dev" # The host of the exchange rate API. Default is "api.frankfurter.dev".
+host = "api.frankfurter.dev" # The host of the exchange rate API. The default is "api.frankfurter.dev".
 
 # Optional. Configure the event title formats. 
 [strings]

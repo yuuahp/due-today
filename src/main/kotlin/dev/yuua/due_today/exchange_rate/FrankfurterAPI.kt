@@ -35,9 +35,11 @@ class FrankfurterAPI(val host: String) {
         }
     }
 
-    private suspend fun request(resource: FrankfurterLatestResource): FrankfurterAPIResponse {
+    val cache = FrankfurterAPICache()
+
+    private suspend fun request(resource: FrankfurterLatestResource): FrankfurterLatestResponse {
         val response = client.get(resource)
-        return response.body<FrankfurterAPIResponse>()
+        return response.body<FrankfurterLatestResponse>()
     }
 
     data class ExchangeReturn(
@@ -46,8 +48,19 @@ class FrankfurterAPI(val host: String) {
     )
 
     suspend fun exchange(amount: Double, from: String, to: String): ExchangeReturn {
+        val cached = cache.read(from, to)
+        if (cached != null && System.currentTimeMillis() - cached.timestamp < FF_CACHE_ALIVE_MILLIS) {
+            logger.info { "Using cached exchange rate for $from to $to: ${cached.rate} (${cached.date})" }
+            return ExchangeReturn(amount * cached.rate, cached.date)
+        }
+
         val latest = request(FrankfurterLatestResource(from, listOf(to)))
         val rate = latest.rates[to] ?: throw IllegalStateException("No rate for $from")
+
+        logger.info { "Using fetched exchange rate for $from to $to: $rate (${latest.date})" }
+
+        cache.write(from, to, rate, latest.date)
+
         return ExchangeReturn(amount * rate, latest.date)
     }
 }
