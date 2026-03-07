@@ -20,7 +20,7 @@ Tested on Java 25.
 ## Apple Calendar
 1. Open Apple Calendar.
 2. Click "File" > "New Calendar Subscription...".
-3. Enter `http://localhost:8080/` as the calendar URL click "Subscribe".
+3. Enter `http://localhost:8080/` as the calendar URL click "Subscribe."
 
 ## Others
 Due Today serves an iCalendar feed at `http://localhost:8080/` (or configured host and port). 
