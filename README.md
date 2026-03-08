@@ -20,10 +20,10 @@ Tested on Java 25.
 ## Apple Calendar
 1. Open Apple Calendar.
 2. Click "File" > "New Calendar Subscription...".
-3. Enter `http://localhost:8080/` as the calendar URL click "Subscribe."
+3. Enter `http://localhost:8080/calendar.ics` as the calendar URL click "Subscribe."
 
 ## Others
-Due Today serves an iCalendar feed at `http://localhost:8080/` (or configured host and port). 
+Due Today serves an iCalendar feed at `http://localhost:8080/calendar.ics` (or configured host and port). 
 You can go with any calendar app that supports iCalendar spec.
 
 ## Server Configuration
@@ -32,7 +32,7 @@ Place `config.toml` in the project root. Example:
 # Optional. The port to listen. Default is 8080.
 port = 1234
 
-# Optional. Configure basic authentication if needed. Your calendar will be accessible at http://username:password@localhost:port/.
+# Optional. Configure basic authentication if needed. Your calendar will be accessible at http://username:password@localhost:port/calendar.ics.
 [auth]
 username = "admin"
 password = "password"
@@ -54,6 +54,7 @@ Place `subscriptions.toml` in the project root. Example:
 ```toml
 [icloud-200gb] # This will be used as the event ID, so it must be unique.
 service = "iCloud 200GB" # The name of the subscription service. This will be used in the event title.
+url = "https://example.com/" # Optional. The URL to manage the subscription. This will be used as the event URL.
 price.currency = "JPY" # The billed currency.
 price.amount = 450.00 # The billed amount.
 start-date = 2026-02-14 # The start date of the subscription.

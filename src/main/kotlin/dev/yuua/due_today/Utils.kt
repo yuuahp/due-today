@@ -7,9 +7,12 @@ import kotlinx.datetime.toJavaLocalDate
 import net.fortuna.ical4j.model.Recur
 import net.fortuna.ical4j.model.component.CalendarComponent
 import net.fortuna.ical4j.model.component.VEvent
+import net.fortuna.ical4j.model.property.Description
 import net.fortuna.ical4j.model.property.RRule
 import net.fortuna.ical4j.model.property.Uid
+import net.fortuna.ical4j.model.property.Url
 import net.fortuna.ical4j.transform.recurrence.Frequency
+import java.net.URI
 import java.time.ZonedDateTime
 
 fun getFrequencyOf(intervalType: SubscriptionIntervalType): Frequency {
@@ -35,13 +38,23 @@ const val SHORTEST_MONTH_DAYS = 28
 fun createVEvent(
     id: String, summary: String,
     startDate: LocalDate, endDate: LocalDate? = null,
-    interval: SubscriptionInterval? = null
+    interval: SubscriptionInterval? = null,
+    description: String? = null,
+    url: String? = null,
 ): CalendarComponent {
     val uid = Uid(id)
 
     return VEvent(startDate.toJavaLocalDate(), summary)
         .withProperty(uid)
         .apply {
+            if (description != null) {
+                withProperty(Description(description))
+            }
+
+            if (url != null) {
+                withProperty(Url(URI(url)))
+            }
+
             if (interval == null) return@apply
 
             val frequency = getFrequencyOf(interval.type)
@@ -72,6 +85,13 @@ fun createVEvent(
 
 suspend fun getVEventsOf(id: String, subscription: SubscriptionData): List<CalendarComponent> {
     val interval = subscription.interval
+    val exchanged = subscription.price.exchangeConfigured()
+    val exchangeDescription = if (exchanged.exchange != null) {
+        "Original price is ${subscription.price}, which is $exchanged at the rate at ${exchanged.exchange.at}."
+    } else {
+        "The price is ${subscription.price}."
+    }
+    val intervalCap = subscription.interval.type.capitalized()
     val vEvent = createVEvent(
         id,
         summary = Store.config.stringsConfig.formatDueDate(
@@ -84,7 +104,12 @@ suspend fun getVEventsOf(id: String, subscription: SubscriptionData): List<Calen
             subscription.trial.endDate.plus(interval.value, getDateTimeUnitOf(interval.type))
         },
         endDate = subscription.endDate,
-        interval
+        interval,
+        description = """
+            $intervalCap payment of ${subscription.service} due today.
+            $exchangeDescription
+        """.trimIndent(),
+        url = subscription.url
     )
 
     val trialVEvents = getTrialVEventsOf(id, subscription)

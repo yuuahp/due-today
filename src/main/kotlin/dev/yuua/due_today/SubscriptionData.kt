@@ -33,7 +33,11 @@ enum class SubscriptionIntervalType {
     MONTHLY,
 
     @SerialName("annually")
-    ANNUALLY,
+    ANNUALLY, ;
+
+    fun capitalized(): String {
+        return name.lowercase().replaceFirstChar(Char::titlecase)
+    }
 }
 
 @Serializable
