@@ -15,7 +15,7 @@ ktoml = "0.7.1"
 
 # Kotlinx
 coroutines = "1.10.2"
-datetime = "0.7.1"
+datetime = "0.7.1-0.6.x-compat"
 
 # Ktor
 ktor = "3.4.1"
