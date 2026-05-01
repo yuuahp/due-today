@@ -18,7 +18,7 @@ coroutines = "1.10.2"
 datetime = "0.7.1"
 
 # Ktor
-ktor = "3.4.1"
+ktor = "3.4.3"
 
 # Database
 exposed = "1.1.1"
