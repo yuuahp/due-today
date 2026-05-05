@@ -3,7 +3,7 @@ kotlin = "2.3.10"
 shadow = "9.3.2"
 
 # Logging
-kotlin-logging = "8.0.01"
+kotlin-logging = "8.0.02"
 slf4j = "2.0.17"
 log4j = "2.25.3"
 
